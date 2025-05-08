@@ -1,2 +1,2 @@
-# group19cloud
-the HKUST cloud project of group 19
+# nlp_individual_project
+the HKUST nlp project of CK
