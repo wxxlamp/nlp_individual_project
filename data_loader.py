@@ -1,6 +1,7 @@
 import json
 import os
-from datasets import Dataset
+from datasets import Dataset, load_dataset
+
 
 def load_jsonl(file_path):
     data = []
@@ -38,3 +39,8 @@ def load_data():
                 f.write(json.dumps(item) + "\n")
 
         return Dataset.from_list(combined_filtered_data)
+
+def load_data_2():
+    dataset = load_dataset("potsawee/wiki_bio_gpt3_hallucination", split="test")
+    # todo-ck 转换成 上面的格式
+

@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModelForSeq2SeqLM, AutoTokenizer
 
+from agent import verbalizer
 from agent.base_model import BaseModel, LABELS
 
 
@@ -12,6 +13,19 @@ class SeqModel(BaseModel):
 
     def build_prompt(self, premise, hypothesis):
         return f"""nli task: premise: {premise} hypothesis: {hypothesis}"""
+
+    def lm_sampled_completion(self, premise, hypothesis):
+        prompt = self.build_prompt(premise, hypothesis)
+        inputs = self.tokenizer(prompt, return_tensors="pt")
+        outputs = self.model.generate(
+            **inputs,
+            max_length=50,
+            temperature=0.7,
+            top_k=50,
+            do_sample=True
+        )
+        generated = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return verbalizer.mapping(generated)
 
     def lm_prob_distribution(self, premise, hypothesis):
         prompt = self.build_prompt(premise, hypothesis)

@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
+from agent import verbalizer
 from agent.base_model import BaseModel, LABELS
 
 
@@ -14,6 +15,20 @@ class CausalModel(BaseModel):
         return f"""Premise: {premise}
         Hypothesis: {hypothesis}
         Is this entailment, neutral, or contradiction? Answer:"""
+
+    def lm_sampled_completion(self, premise, hypothesis):
+        prompt = self.build_prompt(premise, hypothesis)
+        inputs = self.tokenizer(prompt, return_tensors="pt")
+        outputs = self.model.generate(
+            **inputs,
+            max_length=100,
+            temperature=0.7,
+            top_k=50,
+            do_sample=True
+        )
+        generated = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+        return verbalizer.mapping(generated.split("Answer:")[-1])
+
 
     def lm_prob_distribution(self, premise, hypothesis):
         prompt = self.build_prompt(premise, hypothesis)
