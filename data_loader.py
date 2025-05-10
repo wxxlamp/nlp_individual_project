@@ -14,7 +14,7 @@ def load_jsonl(file_path, test=False):
     return Dataset.from_list([first_line]) if test else Dataset.from_list(data)
 
 
-def load_data(test=False):
+def load_data_1(test=False):
     target_file_path = "./data/target_data.jsonl"
 
     if os.path.exists(target_file_path):
@@ -43,7 +43,29 @@ def load_data(test=False):
 
         return Dataset.from_list(combined_filtered_data)
 
-def load_data_2():
-    dataset = load_dataset("potsawee/wiki_bio_gpt3_hallucination", split="test")
-    # todo-ck 转换成 上面的格式
+def load_data_2(test=False):
+    target_path = "./data/wikibio_hallucination_nli_format.jsonl"
+    if os.path.exists(target_path):
+        return load_jsonl(target_path, test)
 
+    # 加载原始数据集
+    dataset = load_dataset("potsawee/wiki_bio_gpt3_hallucination", split="test")
+    # 展开嵌套结构
+    new_data = []
+    for example in dataset:
+        transformed_examples = []
+        for hypo, label in zip(example["gpt3_sentences"], example["annotation"]):
+            transformed = {
+                "premise": example["wiki_bio_text"],
+                "hypothesis": hypo,
+                "gold_label": 0 if label == "accurate" else 1,
+                "genre": "hallucination",
+                "source": None
+            }
+            transformed_examples.append(transformed)
+        new_data.extend(transformed_examples)
+
+    # 存储
+    revert_data = Dataset.from_list(new_data)
+    revert_data.to_json(target_path, orient="records", lines=True)
+    return revert_data if not test else revert_data[0]
