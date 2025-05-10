@@ -6,10 +6,10 @@ from agent.base_model import BaseModel, LABELS
 
 
 class CausalModel(BaseModel):
-    def __init__(self):
+    def __init__(self, model_name="openai-community/gpt2"):
         super().__init__()
-        self.model = AutoModelForCausalLM.from_pretrained("gpt2")
-        self.tokenizer = AutoTokenizer.from_pretrained("gpt2")
+        self.model = AutoModelForCausalLM.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     def build_prompt(self, premise, hypothesis):
         return f"""Premise: {premise}
@@ -24,7 +24,8 @@ class CausalModel(BaseModel):
             max_length=100,
             temperature=0.7,
             top_k=50,
-            do_sample=True
+            do_sample=True,
+            pad_token_id=self.tokenizer.eos_token_id
         )
         generated = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
         return verbalizer.mapping(generated.split("Answer:")[-1])

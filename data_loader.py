@@ -3,19 +3,22 @@ import os
 from datasets import Dataset, load_dataset
 
 
-def load_jsonl(file_path):
+def load_jsonl(file_path, test=False):
     data = []
+    first_line = {}
     with open(file_path, "r") as f:
         for line in f:
+            if first_line == {}:
+                first_line = json.loads(line)
             data.append(json.loads(line))
-    return Dataset.from_list(data)
+    return Dataset.from_list([first_line]) if test else Dataset.from_list(data)
 
 
-def load_data():
+def load_data(test=False):
     target_file_path = "./data/target_data.jsonl"
 
     if os.path.exists(target_file_path):
-        return load_jsonl(target_file_path)
+        return load_jsonl(target_file_path, test)
     else:
         mismatched_data = load_jsonl("data/dev_mismatched_sampled-1.jsonl")
         matched_data = load_jsonl("data/dev_matched_sampled-1.jsonl")

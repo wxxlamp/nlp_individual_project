@@ -6,10 +6,10 @@ from agent.base_model import BaseModel, LABELS
 
 
 class SeqModel(BaseModel):
-    def __init__(self):
+    def __init__(self, model_name="google-t5/t5-base"):
         super().__init__()
-        self.model = AutoModelForSeq2SeqLM.from_pretrained("google/flan-t5-base")
-        self.tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-base")
+        self.model = AutoModelForSeq2SeqLM.from_pretrained(model_name)
+        self.tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     def build_prompt(self, premise, hypothesis):
         return f"""nli task: premise: {premise} hypothesis: {hypothesis}"""

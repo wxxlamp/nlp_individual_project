@@ -1,3 +1,5 @@
-transformers
-datasets
-torch
+transformers~=4.51.3
+datasets~=3.6.0
+torch~=2.7.0
+# modelspace
+sklearn
