@@ -182,3 +182,4 @@ test.py
 
 ./result/*/*.jsonl
 *.vocab
+.DS_Store
