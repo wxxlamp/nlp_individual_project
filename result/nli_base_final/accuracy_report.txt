@@ -1,0 +1,21 @@
+Model-Method Accuracy Breakdown:
+CausalModel (Likelihood) - Total: 0.3180 (1590/5000)
+CausalModel (Likelihood) - Mismatched: 0.3064 (766/2500)
+CausalModel (Likelihood) - Matched: 0.3296 (824/2500)
+
+CausalModel (ProbDist) - Total: 0.3098 (1549/5000)
+CausalModel (ProbDist) - Mismatched: 0.3072 (768/2500)
+CausalModel (ProbDist) - Matched: 0.3124 (781/2500)
+
+CausalModel (Sampled) - Total: 0.3132 (1566/5000)
+CausalModel (Sampled) - Mismatched: 0.3108 (777/2500)
+CausalModel (Sampled) - Matched: 0.3156 (789/2500)
+
+SeqModel (ProbDist) - Total: 0.3224 (1612/5000)
+SeqModel (ProbDist) - Mismatched: 0.3200 (800/2500)
+SeqModel (ProbDist) - Matched: 0.3248 (812/2500)
+
+SeqModel (Sampled) - Total: 0.3286 (1643/5000)
+SeqModel (Sampled) - Mismatched: 0.3204 (801/2500)
+SeqModel (Sampled) - Matched: 0.3368 (842/2500)
+

@@ -1,0 +1,7 @@
+Model-Method | Accuracy | Precision | Recall | F1 Score | True Count
+-------------------------------------------------------
+CausalModel | ProbDist | 0.2689 | 0.0000 | 0.0000 | 0.0000 | 513
+CausalModel | Likelihood | 0.7243 | 0.7313 | 0.9835 | 0.8388 | 1382
+SeqModel | ProbDist | 0.7196 | 0.7353 | 0.9619 | 0.8335 | 1373
+CausalModel | Sampled | 0.7259 | 0.7286 | 0.9950 | 0.8412 | 1385
+SeqModel | Sampled | 0.6436 | 0.7380 | 0.7931 | 0.7645 | 1228
