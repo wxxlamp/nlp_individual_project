@@ -5,14 +5,17 @@ from datasets import Dataset, load_dataset
 
 def load_jsonl(file_path, test=False):
     data = []
-    first_line = {}
+    count = 0
+
     with open(file_path, "r") as f:
         for line in f:
-            if first_line == {}:
-                first_line = json.loads(line)
             data.append(json.loads(line))
-    return Dataset.from_list([first_line]) if test else Dataset.from_list(data)
+            count += 1
 
+            if test and count >= 10:  # 如果是测试模式且已读取了10条记录，则退出循环
+                break
+
+    return Dataset.from_list(data)
 
 def load_data_1(test=False):
     target_file_path = "./data/target_data.jsonl"
@@ -49,7 +52,7 @@ def load_data_2(test=False):
         return load_jsonl(target_path, test)
 
     # 加载原始数据集
-    dataset = load_dataset("potsawee/wiki_bio_gpt3_hallucination", split="test")
+    dataset = load_dataset("potsawee/wiki_bio_gpt3_hallucination", split="evaluation")
     # 展开嵌套结构
     new_data = []
     for example in dataset:

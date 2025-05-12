@@ -173,3 +173,12 @@ cython_debug/
 # PyPI configuration file
 .pypirc
 .idea/
+
+
+downloads.py
+test.py
+
+*_chunk*
+
+./result/*/*.jsonl
+*.vocab

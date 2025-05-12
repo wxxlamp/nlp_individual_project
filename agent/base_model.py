@@ -1,11 +1,13 @@
 from abc import abstractmethod, ABC
 
+import torch
+
 LABELS = ["entailment", "neutral", "contradiction"]
 
 
 class BaseModel(ABC):
     def __init__(self):
-        pass
+        self.device = "cuda" if torch.cuda.is_available() else "cpu"
 
     @abstractmethod
     def build_prompt(self, premise, hypothesis):
