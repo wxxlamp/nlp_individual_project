@@ -228,6 +228,17 @@ def evaluate(args):
 
     os.makedirs(os.path.dirname(args.output_file), exist_ok=True)
     df_score.to_csv(args.output_file)
+    with open(f'./result/bias/{args.lm_model}_statistics.txt', 'w') as f:
+        print('=' * 100, file=f)
+        print('Total examples:', N, file=f)
+        print('Metric score:', round((stereo_score + antistereo_score) / N * 100, 2), file=f)
+        print('Stereotype score:', round(stereo_score / total_stereo * 100, 2), file=f)
+        if antistereo_score != 0:
+            print('Anti-stereotype score:', round(antistereo_score / total_antistereo * 100, 2), file=f)
+        print("Num. neutral:", neutral, round(neutral / N * 100, 2), file=f)
+        print('=' * 100, file=f)
+        print(file=f)
+
     print('=' * 100)
     print('Total examples:', N)
     print('Metric score:', round((stereo_score + antistereo_score) / N * 100, 2))
